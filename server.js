@@ -11,26 +11,27 @@ const wss = new WebSocketServer.Server({ port: app.get('porto') })
  
 // Creating connection using websocket
 wss.on("connection", (ws) => {
-    console.log("new client connected");
+    //console.log("new client connected");
     
     // sending message
     ws.on("message", (data) => {
-        console.log(`Client has sent us: ${data}`);
+        //console.log(`Client has sent us: ${data}`);
         
+        // Envia msg a todos clientes
         wss.clients.forEach(client => {
-            client.send(`A mensagem: "${data}" foi recebida com sucesso!`);
+            client.send(`${data}`);
         });       
     });
 
     // handling what to do when clients disconnects from server
     ws.on("close", () => {
-        console.log("Cliente disconectado!");
+        console.log("Cliente Disconectado!");
     });
 
     // handling client connection error
     ws.onerror = function () {
-        console.log("Some Error occurred")
+        console.log("ERRO!");
     }
 });
 
-console.log(`The WebSocket server is running on port: ${app.get('porto')}`);
+console.log(`Servidor WS inicializado na porta: ${app.get('porto')}`);
